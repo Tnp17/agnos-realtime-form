@@ -85,3 +85,4 @@ agnos-realtime-form/
 
 🌟 5. Bonus Features
 - Dark Mode
+- Bilingual
