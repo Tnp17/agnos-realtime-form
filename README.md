@@ -1,4 +1,4 @@
-# Agnos Real-Time Patient Form System
+# Agnos Real-Time Form System
 
 ระบบกรอกฟอร์มลงทะเบียนคนไข้แบบ Real-time ที่ช่วยให้เจ้าหน้าที่ (Staff) ติดตามสถานะและรับข้อมูลจากคนไข้ (Patient) ได้ทันทีในขณะกำลังกรอก โดยไม่ต้องรอ Refresh หน้าจอ
 
