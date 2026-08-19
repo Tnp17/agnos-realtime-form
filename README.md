@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Agnos Real-Time Patient Intake Form System
 
-## Getting Started
+ระบบกรอกฟอร์มลงทะเบียนคนไข้แบบ Real-time ที่ช่วยให้เจ้าหน้าที่ (Staff) ติดตามสถานะและรับข้อมูลจากคนไข้ (Patient) ได้ทันทีในขณะกำลังกรอก โดยไม่ต้องรอ Refresh หน้าจอ
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🔗 Live Application & Repository
+* **Deployed Application:** [https://YOUR-NETLIFY-APP-NAME.netlify.app](https://YOUR-NETLIFY-APP-NAME.netlify.app)
+* **GitHub Repository:** [https://github.com/Tnp17/agnos-realtime-form](https://github.com/Tnp17/agnos-realtime-form)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack & Libraries
+* **Framework:** Next.js 16 (App Router, JavaScript)
+* **Styling:** Tailwind CSS
+* **Real-time Engine:** Pusher (WebSockets)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🚀 Setup & Installation Guide
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the Repository:**  
+   `git clone https://github.com/Tnp17/agnos-realtime-form.git`  
+   `cd agnos-realtime-form`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Install Dependencies:**  
+   `npm install`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Configure Environment Variables:**  
+   สร้างไฟล์ `.env.local` ไว้ที่ root ของโปรเจกต์ แล้วใส่ค่า Credentials จาก Pusher:
+   * `PUSHER_APP_ID=your_app_id`
+   * `NEXT_PUBLIC_PUSHER_KEY=your_pusher_key`
+   * `PUSHER_SECRET=your_pusher_secret`
+   * `NEXT_PUBLIC_PUSHER_CLUSTER=your_pusher_cluster`
 
-## Deploy on Vercel
+4. **Run Development Server:**  
+   `npm run dev`  
+   เข้าใช้งานได้ที่ `http://localhost:3000`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🏗️ Development Planning Documentation
+
+```text
+📁 1. Project Structure
+agnos-realtime-form/
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── pusher-event/
+│   │   │       └── route.js        # API Route สำหรับ Trigger เหตุการณ์ผ่าน Pusher Server
+│   │   ├── patient/
+│   │   │   └── page.jsx            # หน้าสำหรับคนไข้กรอกฟอร์ม (/patient)
+│   │   ├── staff/
+│   │   │   └── page.jsx            # หน้าสำหรับเจ้าหน้าที่ดูข้อมูลเรียลไทม์ (/staff)
+│   │   ├── globals.css             # Tailwind Stylesheet
+│   │   ├── layout.js               # Root Layout
+│   │   └── page.js                 # หน้าแรกสำหรับเลือก Role เข้าใช้งาน (Landing Page)
+│   ├── components/
+│   │   ├── PatientForm.jsx         # Component จัดการ Form และส่งสถานะ Debounce
+│   │   └── StaffDashboard.jsx      # Component รับ Event และแสดงผลบน Dashboard
+│   └── lib/
+│       ├── pusher-client.js        # Pusher Client instance (สำหรับ Subscribe)
+│       └── pusher-server.js        # Pusher Server instance (สำหรับ Trigger)
+├── jsconfig.json                   # ตั้งค่า Path Alias (@/*) สำหรับ JavaScript
+└── package.json
+
+🎨 2. UI/UX & Responsive Design
+- Mobile-First Grid Layout: ใช้ระบบ Grid ของ Tailwind CSS (grid-cols-1 md:grid-cols-2, grid-cols-3) ปรับการแสดงผลตามขนาดหน้าจอ
+- Status Badges & Visual Cues: ใช้สีและแอนิเมชันสำหรับบอกสถานะชัดเจนที่หน้า Staff (Actively filling in, Inactive in the form, Submitted)
+- Form UX: ฟอร์มถูกแบ่งตามประเภทข้อมูลอย่างเป็นระเบียบ และกำหนด required ในฟิลด์ที่จำเป็น
+
+🧩 3. Component Architecture
+- PatientForm.jsx (Client Component): จัดการ State ข้อมูลคนไข้ทั้งหมด ตรวจจับ Event onChange ส่งอัปเดตผ่าน API ทันที พร้อมระบบ Debounce Timer (3 วินาที)
+- StaffDashboard.jsx (Client Component): Subscribe เข้ากับ Channel และ Event ของ Pusher เพื่อรับและอัปเดตข้อมูลบน UI ทันที
+- pusher-event/route.js (API Route): รับ Payloads จาก PatientForm แล้วสั่ง pusherServer.trigger เพื่อกระจายข้อมูล (Broadcast)
+
+🔄 4. Real-time Synchronization Flow
+1. User Types: คนไข้พิมพ์ข้อมูลลงในช่องกรอกบนหน้า /patient
+2. Debounce & Update Event: ฟังก์ชัน handleChange อัปเดต Local State และยิง HTTP POST ไปที่ /api/pusher-event พร้อมสถานะ Actively filling in
+3. Pusher Trigger: API Route รับข้อมูลแล้วสั่ง pusherServer.trigger() กระจายข้อมูลไปยัง Channel patient-session บน Event update-form
+4. WebSocket Push: Pusher Broadcast ข้อมูลไปยัง Client ที่ต่อ WebSocket ฟังอยู่อัตโนมัติ
+5. Staff UI Render: หน้า /staff รับ Data Payload ผ่าน WebSocket แล้วสั่ง Re-render หน้าจอและเปลี่ยน Badge สถานะทันที
+6. Inactivity Detection: หากหยุดพิมพ์ครบ 3 วินาที Timer จะยิง Event ปรับสถานะเป็น Inactive in the form อัตโนมัติ
