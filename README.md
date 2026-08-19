@@ -77,11 +77,11 @@ agnos-realtime-form/
 
 🔄 4. Real-time Synchronization Flow
 1. User Types: คนไข้พิมพ์ข้อมูลลงในช่องกรอกบนหน้า /patient
-2. Debounce & Update Event: ฟังก์ชัน handleChange อัปเดต Local State และยิง HTTP POST ไปที่ /api/pusher-event พร้อมสถานะ Actively filling in
+2. Debounce & Update Event: ฟังก์ชัน handleChange อัปเดต Local State และยิง HTTP POST ไปที่ /api/pusher-event พร้อมสถานะ Typing
 3. Pusher Trigger: API Route รับข้อมูลแล้วสั่ง pusherServer.trigger() กระจายข้อมูลไปยัง Channel patient-session บน Event update-form
 4. WebSocket Push: Pusher Broadcast ข้อมูลไปยัง Client ที่ต่อ WebSocket ฟังอยู่อัตโนมัติ
 5. Staff UI Render: หน้า /staff รับ Data Payload ผ่าน WebSocket แล้วสั่ง Re-render หน้าจอและเปลี่ยน Badge สถานะทันที
-6. Inactivity Detection: หากหยุดพิมพ์ครบ 3 วินาที Timer จะยิง Event ปรับสถานะเป็น Inactive in the form อัตโนมัติ
+6. Inactivity Detection: หากหยุดพิมพ์ครบ 3 วินาที Timer จะยิง Event ปรับสถานะเป็น Inactive อัตโนมัติ
 
 🌟 5. Bonus Features
 - Dark Mode
