@@ -82,3 +82,6 @@ agnos-realtime-form/
 4. WebSocket Push: Pusher Broadcast ข้อมูลไปยัง Client ที่ต่อ WebSocket ฟังอยู่อัตโนมัติ
 5. Staff UI Render: หน้า /staff รับ Data Payload ผ่าน WebSocket แล้วสั่ง Re-render หน้าจอและเปลี่ยน Badge สถานะทันที
 6. Inactivity Detection: หากหยุดพิมพ์ครบ 3 วินาที Timer จะยิง Event ปรับสถานะเป็น Inactive in the form อัตโนมัติ
+
+🌟 5. Bonus Features
+- Dark Mode
