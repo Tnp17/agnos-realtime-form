@@ -62,18 +62,39 @@ const dict = {
 export default function StaffDashboard() {
     const [formData, setFormData] = useState({});
     const [status, setStatus] = useState('Inactive in the form');
-    const [isDark, setIsDark] = useState(false);
-    const [lang, setLang] = useState('th');
+
+    // 1. โหลดค่าเริ่มต้นจาก localStorage
+    const [isDark, setIsDark] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('theme') === 'dark';
+        }
+        return false;
+    });
+
+    const [lang, setLang] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('lang') || 'th';
+        }
+        return 'th';
+    });
 
     const t = dict[lang];
 
+    // 2. ซิงค์ Dark Mode Class และบันทึกคีย์ theme
     useEffect(() => {
         if (isDark) {
             document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
         } else {
             document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
         }
     }, [isDark]);
+
+    // 3. ซิงค์ภาษาลง localStorage
+    useEffect(() => {
+        localStorage.setItem('lang', lang);
+    }, [lang]);
 
     useEffect(() => {
         const channel = pusherClient.subscribe('patient-session');
@@ -122,7 +143,7 @@ export default function StaffDashboard() {
                 <div className="w-full flex flex-wrap items-center justify-between gap-4">
 
                     <div className="flex items-center gap-4">
-                        {/* Back Button / */}
+                        {/* Back Button */}
                         <Link
                             href="/"
                             className="p-3 rounded-full bg-slate-200/70 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all border border-slate-300/60 dark:border-slate-700/60 flex items-center justify-center group"
@@ -173,7 +194,10 @@ export default function StaffDashboard() {
                         {/* Language Switcher */}
                         <div className="flex items-center bg-slate-200/70 dark:bg-slate-800/70 p-1 rounded-full border border-slate-300/60 dark:border-slate-700/60">
                             <button
-                                onClick={() => setLang('th')}
+                                onClick={() => {
+                                    setLang('th');
+                                    localStorage.setItem('lang', 'th');
+                                }}
                                 className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-sm font-bold transition-all ${lang === 'th'
                                     ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-xs scale-105'
                                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
@@ -189,7 +213,10 @@ export default function StaffDashboard() {
                                 TH
                             </button>
                             <button
-                                onClick={() => setLang('en')}
+                                onClick={() => {
+                                    setLang('en');
+                                    localStorage.setItem('lang', 'en');
+                                }}
                                 className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-sm font-bold transition-all ${lang === 'en'
                                     ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-xs scale-105'
                                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
@@ -285,7 +312,7 @@ function DataCard({ label, value, className = "" }) {
             <div className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium mb-1.5">
                 {label}
             </div>
-            
+
             <div className="text-base sm:text-lg lg:text-xl font-bold text-slate-900 dark:text-slate-100 break-words">
                 {value || <span className="text-slate-400 dark:text-slate-600 font-normal">-</span>}
             </div>
