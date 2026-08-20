@@ -67,8 +67,9 @@ agnos-realtime-form/
 
 🎨 2. UI/UX & Responsive Design
 - Mobile-First Grid Layout: ใช้ระบบ Grid ของ Tailwind CSS (grid-cols-1 md:grid-cols-2, grid-cols-3) ปรับการแสดงผลตามขนาดหน้าจอ
-- Status Badges & Visual Cues: ใช้สีและแอนิเมชันสำหรับบอกสถานะชัดเจนที่หน้า Staff (Actively filling in, Inactive in the form, Submitted)
-- Form UX: ฟอร์มถูกแบ่งตามประเภทข้อมูลอย่างเป็นระเบียบ และกำหนด required ในฟิลด์ที่จำเป็น
+- Status Badges & Visual Cues: ใช้สีและแอนิเมชันสำหรับบอกสถานะชัดเจนที่หน้า Staff (Typing, Inactive, Submitted)
+- UX Form: ฟอร์มถูกแบ่งตามประเภทข้อมูลอย่างเป็นระเบียบ และกำหนด required ในฟิลด์ที่จำเป็น
+- User Interface: การออกแบบใช้โทนสีฟ้า-เขียวและกริดการ์ดมน เพื่อสะท้อนความสะอาด ปลอดภัย และสร้างความน่าเชื่อถือในทางการแพทย์ ช่วยลดความวิตกกังวลของผู้ป่วย และเพิ่มความชัดเจนในการทำงานของเจ้าหน้าที่
 
 🧩 3. Component Architecture
 - PatientForm.jsx (Client Component): จัดการ State ข้อมูลคนไข้ทั้งหมด ตรวจจับ Event onChange ส่งอัปเดตผ่าน API ทันที พร้อมระบบ Debounce Timer (3 วินาที)
