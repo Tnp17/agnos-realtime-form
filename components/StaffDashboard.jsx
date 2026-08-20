@@ -63,7 +63,7 @@ export default function StaffDashboard() {
     const [formData, setFormData] = useState({});
     const [status, setStatus] = useState('Inactive in the form');
 
-    // 1. โหลดค่าเริ่มต้นจาก localStorage
+    //Load Default value from localStorage
     const [isDark, setIsDark] = useState(() => {
         if (typeof window !== 'undefined') {
             return localStorage.getItem('theme') === 'dark';
@@ -80,7 +80,7 @@ export default function StaffDashboard() {
 
     const t = dict[lang];
 
-    // 2. ซิงค์ Dark Mode Class และบันทึกคีย์ theme
+    //Sync Dark Mode Class & Save theme key
     useEffect(() => {
         if (isDark) {
             document.documentElement.classList.add('dark');
@@ -91,7 +91,7 @@ export default function StaffDashboard() {
         }
     }, [isDark]);
 
-    // 3. ซิงค์ภาษาลง localStorage
+    //Sync lang to localStorage
     useEffect(() => {
         localStorage.setItem('lang', lang);
     }, [lang]);
@@ -191,7 +191,7 @@ export default function StaffDashboard() {
                     </div>
 
                     <div className="flex items-center gap-3.5 ml-auto sm:ml-0">
-                        {/* Language Switcher */}
+                        {/* Language Toggle */}
                         <div className="flex items-center bg-slate-200/70 dark:bg-slate-800/70 p-1 rounded-full border border-slate-300/60 dark:border-slate-700/60">
                             <button
                                 onClick={() => {
