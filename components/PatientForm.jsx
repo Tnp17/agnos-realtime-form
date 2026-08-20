@@ -13,7 +13,8 @@ import {
     Mail,
     Info,
     Send,
-    CheckCircle2
+    CheckCircle2,
+    MoreVertical
 } from 'lucide-react';
 
 const languageOptions = ISO6391.getAllNames().map((name) => ({
@@ -54,6 +55,7 @@ export default function PatientForm() {
     const [darkMode, setDarkMode] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const initialFormState = {
         firstName: '',
@@ -356,7 +358,7 @@ export default function PatientForm() {
         <div className={`min-h-screen py-8 px-4 transition-colors duration-200 ${darkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-100 text-slate-800'}`}>
             <div className="max-w-4xl mx-auto space-y-6">
 
-                {/* Navbar Controls */}
+                {/* Navbar Controls - Mobile Responsive Menu */}
                 <div className="flex justify-between items-center">
                     <button
                         type="button"
@@ -367,40 +369,51 @@ export default function PatientForm() {
                         <span>{t.back}</span>
                     </button>
 
-                    <div className="flex items-center gap-3">
+                    <div className="relative">
                         <button
                             type="button"
-                            onClick={toggleDarkMode}
-                            className="p-2.5 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-xs transition"
+                            onClick={() => setMenuOpen(!menuOpen)}
+                            className="p-2.5 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-xs transition"
                         >
-                            {darkMode ? <Moon size={18} /> : <Sun size={18} />}
+                            <MoreVertical size={18} />
                         </button>
 
-                        <div className="flex items-center bg-slate-200 dark:bg-slate-800 p-1 rounded-full border border-slate-300 dark:border-slate-700">
-                            <button
-                                type="button"
-                                onClick={() => changeLanguage('th')}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold transition-all ${lang === 'th'
-                                    ? 'bg-blue-600 text-white shadow-xs'
-                                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-                                    }`}
-                            >
-                                <img src="https://flagcdn.com/w40/th.png" alt="TH" className="w-4 h-3 object-cover rounded-xs" />
-                                <span>TH</span>
-                            </button>
+                        {menuOpen && (
+                            <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-3 flex flex-col gap-3 z-50">
+                                <div className="flex items-center justify-between px-2 py-0 border-b border-slate-100 dark:border-slate-800 pb-2">
+                                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Theme</span>
+                                    <button
+                                        type="button"
+                                        onClick={toggleDarkMode}
+                                        className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+                                    >
+                                        {darkMode ? <Moon size={16} /> : <Sun size={16} />}
+                                    </button>
+                                </div>
 
-                            <button
-                                type="button"
-                                onClick={() => changeLanguage('en')}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold transition-all ${lang === 'en'
-                                    ? 'bg-blue-600 text-white shadow-xs'
-                                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-                                    }`}
-                            >
-                                <img src="https://flagcdn.com/w40/gb.png" alt="EN" className="w-4 h-3 object-cover rounded-xs" />
-                                <span>EN</span>
-                            </button>
-                        </div>
+                                <div className="flex items-center justify-between px-2 pt-1">
+                                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Language</span>
+                                    <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-full">
+                                        <button
+                                            type="button"
+                                            onClick={() => changeLanguage('th')}
+                                            className={`px-2.5 py-1 rounded-full text-xs font-semibold transition-all ${lang === 'th' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-400'
+                                                }`}
+                                        >
+                                            TH
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => changeLanguage('en')}
+                                            className={`px-2.5 py-1 rounded-full text-xs font-semibold transition-all ${lang === 'en' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-400'
+                                                }`}
+                                        >
+                                            EN
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 

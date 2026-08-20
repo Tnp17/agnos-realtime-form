@@ -66,6 +66,7 @@ export default function StaffDashboard() {
     const [status, setStatus] = useState('Inactive in the form');
     const [isDark, setIsDark] = useState(false);
     const [lang, setLang] = useState('th');
+    const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
         setIsMounted(true);
@@ -77,8 +78,6 @@ export default function StaffDashboard() {
     }, []);
 
     const t = dict[lang] || dict.th;
-
-    // Functions for converting the displayed values ​​according to the dashboard language
 
     // Convert Gender
     const getGenderText = (genderVal) => {
@@ -235,63 +234,65 @@ export default function StaffDashboard() {
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-3.5 ml-auto sm:ml-0">
+                    {/* Responsive Dropdown Menu */}
+                    <div className="relative ml-auto sm:ml-0">
                         <button
-                            onClick={() => setIsDark(!isDark)}
+                            onClick={() => setMenuOpen(!menuOpen)}
                             className="w-10 h-10 rounded-full bg-slate-200/70 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors border border-slate-300/60 dark:border-slate-700/60 flex items-center justify-center"
-                            title="Toggle Theme"
-                            aria-label="Toggle Dark Mode"
+                            title="Menu"
                         >
-                            {isDark ? (
-                                <svg className="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                                </svg>
-                            ) : (
-                                <svg className="w-5 h-5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                                </svg>
-                            )}
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                            </svg>
                         </button>
-                        <div className="flex items-center bg-slate-200/70 dark:bg-slate-800/70 p-1 rounded-full border border-slate-300/60 dark:border-slate-700/60">
-                            <button
-                                onClick={() => {
-                                    setLang('th');
-                                    localStorage.setItem('lang', 'th');
-                                }}
-                                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-sm font-bold transition-all ${lang === 'th'
-                                    ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-xs scale-105'
-                                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-                                    }`}
-                            >
-                                <svg className="w-5 h-5 rounded-full object-cover flex-shrink-0" viewBox="0 0 640 480">
-                                    <g fillRule="evenodd" strokeWidth="1pt">
-                                        <path fill="#f4f5f8" d="M0 0h640v480H0z" />
-                                        <path fill="#2d2a4a" d="M0 160h640v160H0z" />
-                                        <path fill="#a51931" d="M0 0h640v80H0zm0 400h640v80H0z" />
-                                    </g>
-                                </svg>
-                                TH
-                            </button>
-                            <button
-                                onClick={() => {
-                                    setLang('en');
-                                    localStorage.setItem('lang', 'en');
-                                }}
-                                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-sm font-bold transition-all ${lang === 'en'
-                                    ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-xs scale-105'
-                                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-                                    }`}
-                            >
-                                <svg className="w-5 h-5 rounded-full object-cover flex-shrink-0" viewBox="0 0 640 480">
-                                    <path fill="#00247d" d="M0 0h640v480H0z" />
-                                    <path fill="#fff" d="m67.5 0 252.5 189L572.5 0H640v50.5L387.5 240 640 429.5V480h-67.5L320 291 67.5 480H0v-50.5L252.5 240 0 50.5V0h67.5z" />
-                                    <path fill="#cf142b" d="M222.5 0 320 73 417.5 0H470l-150 112.5L470 225h-52.5L320 152l-97.5 73H170l150-112.5L170 0h52.5zM0 429.5l150-112.5L0 204.5v225zm640-379L490 163l150 112.5V50.5zM0 50.5l150 112.5L0 275.5V50.5zm640 379L490 317l150-112.5v225z" />
-                                    <path fill="#fff" d="M240 0h160v480H240zM0 160h640v160H0z" />
-                                    <path fill="#cf142b" d="M266.7 0h106.6v480H266.7zM0 186.7h640v106.6H0z" />
-                                </svg>
-                                EN
-                            </button>
-                        </div>
+
+                        {menuOpen && (
+                            <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-3 flex flex-col gap-3 z-50">
+                                <div className="flex items-center justify-between px-2 py-0 border-b border-slate-100 dark:border-slate-800 pb-2">
+                                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Theme</span>
+                                    <button
+                                        onClick={() => setIsDark(!isDark)}
+                                        className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+                                    >
+                                        {isDark ? (
+                                            <svg className="w-4 h-4 text-slate-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                                            </svg>
+                                        ) : (
+                                            <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                            </svg>
+                                        )}
+                                    </button>
+                                </div>
+
+                                <div className="flex items-center justify-between px-2 pt-1">
+                                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Language</span>
+                                    <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-full">
+                                        <button
+                                            onClick={() => {
+                                                setLang('th');
+                                                localStorage.setItem('lang', 'th');
+                                            }}
+                                            className={`px-2.5 py-1 rounded-full text-xs font-bold transition-all ${lang === 'th' ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-xs' : 'text-slate-600 dark:text-slate-400'
+                                                }`}
+                                        >
+                                            TH
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                setLang('en');
+                                                localStorage.setItem('lang', 'en');
+                                            }}
+                                            className={`px-2.5 py-1 rounded-full text-xs font-bold transition-all ${lang === 'en' ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-xs' : 'text-slate-600 dark:text-slate-400'
+                                                }`}
+                                        >
+                                            EN
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </header>
@@ -322,7 +323,6 @@ export default function StaffDashboard() {
                         <DataCard label={t.lblMiddleName} value={formData.middleName} />
                         <DataCard label={t.lblLastName} value={formData.lastName} />
                         <DataCard label={t.lblDob} value={formData.dob} />
-                        {/* Convert Gender base on lang */}
                         <DataCard label={t.lblGender} value={getGenderText(formData.gender)} />
                         <DataCard label={t.lblNation} value={formData.nationality} />
                     </div>
@@ -336,9 +336,7 @@ export default function StaffDashboard() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         <DataCard label={t.lblPhone} value={formData.phone} />
                         <DataCard label={t.lblEmail} value={formData.email} />
-                        {/* Convert Preferred Language */}
                         <DataCard label={t.lblLang} value={getLanguageText(formData.preferredLanguage)} />
-                        {/* Convert Religion */}
                         <DataCard label={t.lblReligion} value={getReligionText(formData.religion)} />
                         <DataCard label={t.lblAddress} value={formData.address} className="sm:col-span-2 md:col-span-3 lg:col-span-2" />
                         <DataCard label={t.lblEmergencyName} value={formData.emergencyContactName} />

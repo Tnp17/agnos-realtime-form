@@ -7,6 +7,7 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [lang, setLang] = useState('th');
   const [isDark, setIsDark] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Load value from localStorage after Mount on Client
   useEffect(() => {
@@ -78,63 +79,65 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col items-center justify-between p-6 lg:p-12 transition-colors duration-300 relative">
 
-      {/* Top Controller Bar */}
-      <div className="absolute top-6 right-6 lg:top-8 lg:right-12 z-20 flex items-center gap-3">
+      {/* Top Controller Bar - Responsive Dropdown */}
+      <div className="absolute top-6 right-6 lg:top-8 lg:right-12 z-30">
+        <div className="relative">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="p-3 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 shadow-md transition-all flex items-center justify-center cursor-pointer"
+            aria-label="Open controls"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+            </svg>
+          </button>
 
-        {/* Dark / Light Mode Toggle Button */}
-        <button
-          onClick={() => setIsDark(!isDark)}
-          aria-label="Toggle Theme"
-          className="p-3 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 shadow-sm transition-all flex items-center justify-center cursor-pointer"
-        >
-          {isDark ? (
-            /* Moon Icon */
-            <svg className="w-5 h-5 text-slate-300" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-            </svg>
-          ) : (
-            /* Sun Icon */
-            <svg className="w-5 h-5 text-slate-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" clipRule="evenodd" />
-            </svg>
+          {menuOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-3 flex flex-col gap-3 z-50">
+
+              {/* Dark / Light Mode Toggle */}
+              <div className="flex items-center justify-between px-2 py-0 border-b border-slate-100 dark:border-slate-800 pb-1">
+                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Theme</span>
+                <button
+                  onClick={() => setIsDark(!isDark)}
+                  aria-label="Toggle Theme"
+                  className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all cursor-pointer"
+                >
+                  {isDark ? (
+                    <svg className="w-4 h-4 text-slate-200" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4 text-slate-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </button>
+              </div>
+
+              {/* Language Toggle */}
+              <div className="flex items-center justify-between px-2 pt-1">
+                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Language</span>
+                <div className="flex gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-full">
+                  <button
+                    onClick={() => setLang('th')}
+                    className={`px-2.5 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${lang === 'th' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-400'
+                      }`}
+                  >
+                    TH
+                  </button>
+                  <button
+                    onClick={() => setLang('en')}
+                    className={`px-2.5 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${lang === 'en' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-400'
+                      }`}
+                  >
+                    EN
+                  </button>
+                </div>
+              </div>
+
+            </div>
           )}
-        </button>
-
-        {/* Language Toggle */}
-        <div className="flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-full p-1 shadow-sm">
-          <button
-            onClick={() => setLang('th')}
-            className={`flex items-center gap-2.5 px-4 py-2 rounded-full text-sm font-bold transition-all cursor-pointer ${lang === 'th'
-              ? 'bg-blue-600 text-white shadow-sm'
-              : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
-              }`}
-          >
-            <span className="w-5 h-5 rounded-full overflow-hidden flex-shrink-0 border border-black/10 inline-flex items-center justify-center">
-              <img
-                src="https://flagcdn.com/th.svg"
-                alt="Thai Flag"
-                className="w-full h-full object-cover"
-              />
-            </span>
-            <span>TH</span>
-          </button>
-
-          <button
-            onClick={() => setLang('en')}
-            className={`flex items-center gap-2.5 px-4 py-2 rounded-full text-sm font-bold transition-all cursor-pointer ${lang === 'en'
-              ? 'bg-blue-600 text-white shadow-sm'
-              : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
-              }`}
-          >
-            <span className="w-5 h-5 rounded-full overflow-hidden flex-shrink-0 border border-black/10 inline-flex items-center justify-center">
-              <img
-                src="https://flagcdn.com/gb.svg"
-                alt="UK Flag"
-                className="w-full h-full object-cover"
-              />
-            </span>
-            <span>EN</span>
-          </button>
         </div>
       </div>
 
