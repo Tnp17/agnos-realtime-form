@@ -95,7 +95,7 @@ export default function Home() {
           {menuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-3 flex flex-col gap-3 z-50">
 
-              {/* Dark / Light Mode Toggle */}
+              {/* Dark/Light Mode Toggle */}
               <div className="flex items-center justify-between px-2 py-0 border-b border-slate-100 dark:border-slate-800 pb-1">
                 <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Theme</span>
                 <button
