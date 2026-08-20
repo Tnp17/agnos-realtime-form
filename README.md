@@ -50,7 +50,7 @@ agnos-realtime-form/
 │   │   │   └── pusher-event/
 │   │   │       └── route.js        # API Route สำหรับ Trigger เหตุการณ์ผ่าน Pusher Server
 │   │   ├── patient/
-│   │   │   └── page.jsx            # หน้าสำหรับคนไข้กรอกฟอร์ม (/patient)
+│   │   │   └── page.jsx            # หน้าสำหรับผู้ป่วยกรอกฟอร์ม (/patient)
 │   │   ├── staff/
 │   │   │   └── page.jsx            # หน้าสำหรับเจ้าหน้าที่ดูข้อมูลเรียลไทม์ (/staff)
 │   │   ├── globals.css             # Tailwind Stylesheet
