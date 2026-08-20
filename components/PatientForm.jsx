@@ -38,13 +38,13 @@ const isPhoneValid = (phone) => {
     return digitsOnly.length >= 8 && digitsOnly.length <= 15;
 };
 
-// Helper function: ตัวอักษรแรกเป็นตัวใหญ่
+// function: Upper case Nationality first index
 const capitalizeFirstLetter = (str) => {
     if (!str) return str;
     return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-// Helper function: กรองไม่ให้มีตัวเลข
+// function: Filter out the numbers
 const removeNumbers = (str) => {
     return str.replace(/[0-9]/g, '');
 };
@@ -510,7 +510,7 @@ export default function PatientForm() {
                             </div>
                         </div>
 
-                        {/* Section 2: Contact */}
+                        {/* Section 2: Contact Info*/}
                         <div className="space-y-4 pt-2">
                             <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-lg">
                                 <Mail size={20} />

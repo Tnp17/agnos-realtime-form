@@ -78,9 +78,9 @@ export default function StaffDashboard() {
 
     const t = dict[lang] || dict.th;
 
-    // --- Helper Functions สำหรับแปลงค่าแสดงผลตามภาษาของแดชบอร์ด ---
+    // Functions for converting the displayed values ​​according to the dashboard language
 
-    // 1. แปลงค่าเพศ
+    // Convert Gender
     const getGenderText = (genderVal) => {
         if (!genderVal) return null;
         const key = genderVal.toLowerCase();
@@ -92,7 +92,7 @@ export default function StaffDashboard() {
         return map[key] || genderVal;
     };
 
-    // 2. แปลงค่าภาษาที่สะดวก (ใช้ ISO6391)
+    // Convert Preferred Language (use ISO6391)
     const getLanguageText = (langCode) => {
         if (!langCode) return null;
         const nativeName = ISO6391.getNativeName(langCode);
@@ -106,7 +106,7 @@ export default function StaffDashboard() {
         return englishName ? `${nativeName || englishName} (${englishName})` : nativeName;
     };
 
-    // 3. แปลงค่าศาสนา
+    // Convert Nationality
     const getReligionText = (relVal) => {
         if (!relVal) return null;
         const key = relVal.toLowerCase();
@@ -322,7 +322,7 @@ export default function StaffDashboard() {
                         <DataCard label={t.lblMiddleName} value={formData.middleName} />
                         <DataCard label={t.lblLastName} value={formData.lastName} />
                         <DataCard label={t.lblDob} value={formData.dob} />
-                        {/* แปลงค่า Gender ตามภาษาเจ้าหน้าที่ */}
+                        {/* Convert Gender base on lang */}
                         <DataCard label={t.lblGender} value={getGenderText(formData.gender)} />
                         <DataCard label={t.lblNation} value={formData.nationality} />
                     </div>
@@ -336,9 +336,9 @@ export default function StaffDashboard() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         <DataCard label={t.lblPhone} value={formData.phone} />
                         <DataCard label={t.lblEmail} value={formData.email} />
-                        {/* แปลงค่า Preferred Language */}
+                        {/* Convert Preferred Language */}
                         <DataCard label={t.lblLang} value={getLanguageText(formData.preferredLanguage)} />
-                        {/* แปลงค่า Religion */}
+                        {/* Convert Religion */}
                         <DataCard label={t.lblReligion} value={getReligionText(formData.religion)} />
                         <DataCard label={t.lblAddress} value={formData.address} className="sm:col-span-2 md:col-span-3 lg:col-span-2" />
                         <DataCard label={t.lblEmergencyName} value={formData.emergencyContactName} />
