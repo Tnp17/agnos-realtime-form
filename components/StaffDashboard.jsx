@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import ISO6391 from 'iso-639-1';
 import { pusherClient } from '../lib/pusher-client';
 
 const dict = {
@@ -60,28 +61,69 @@ const dict = {
 };
 
 export default function StaffDashboard() {
+    const [isMounted, setIsMounted] = useState(false);
     const [formData, setFormData] = useState({});
     const [status, setStatus] = useState('Inactive in the form');
+    const [isDark, setIsDark] = useState(false);
+    const [lang, setLang] = useState('th');
 
-    //Load Default value from localStorage
-    const [isDark, setIsDark] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return localStorage.getItem('theme') === 'dark';
-        }
-        return false;
-    });
-
-    const [lang, setLang] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return localStorage.getItem('lang') || 'th';
-        }
-        return 'th';
-    });
-
-    const t = dict[lang];
-
-    //Sync Dark Mode Class & Save theme key
     useEffect(() => {
+        setIsMounted(true);
+        const savedTheme = localStorage.getItem('theme') === 'dark';
+        const savedLang = localStorage.getItem('lang') || 'th';
+
+        setIsDark(savedTheme);
+        setLang(savedLang);
+    }, []);
+
+    const t = dict[lang] || dict.th;
+
+    // --- Helper Functions สำหรับแปลงค่าแสดงผลตามภาษาของแดชบอร์ด ---
+
+    // 1. แปลงค่าเพศ
+    const getGenderText = (genderVal) => {
+        if (!genderVal) return null;
+        const key = genderVal.toLowerCase();
+        const map = {
+            male: lang === 'en' ? 'Male' : 'ชาย',
+            female: lang === 'en' ? 'Female' : 'หญิง',
+            other: lang === 'en' ? 'Other' : 'อื่นๆ'
+        };
+        return map[key] || genderVal;
+    };
+
+    // 2. แปลงค่าภาษาที่สะดวก (ใช้ ISO6391)
+    const getLanguageText = (langCode) => {
+        if (!langCode) return null;
+        const nativeName = ISO6391.getNativeName(langCode);
+        const englishName = ISO6391.getName(langCode);
+
+        if (!nativeName && !englishName) return langCode;
+
+        if (lang === 'en') {
+            return nativeName ? `${englishName} (${nativeName})` : englishName;
+        }
+        return englishName ? `${nativeName || englishName} (${englishName})` : nativeName;
+    };
+
+    // 3. แปลงค่าศาสนา
+    const getReligionText = (relVal) => {
+        if (!relVal) return null;
+        const key = relVal.toLowerCase();
+        const map = {
+            buddhism: lang === 'en' ? 'Buddhism' : 'พุทธ (Buddhism)',
+            islam: lang === 'en' ? 'Islam' : 'อิสลาม (Islam)',
+            christianity: lang === 'en' ? 'Christianity' : 'คริสต์ (Christianity)',
+            hinduism: lang === 'en' ? 'Hinduism' : 'ฮินดู (Hinduism)',
+            sikhism: lang === 'en' ? 'Sikhism' : 'ซิกข์ (Sikhism)',
+            judaism: lang === 'en' ? 'Judaism' : 'ยิว (Judaism)',
+            none: lang === 'en' ? 'Non-religious' : 'ไม่นับถือศาสนา (Atheism)'
+        };
+        return map[key] || relVal;
+    };
+
+    useEffect(() => {
+        if (!isMounted) return;
         if (isDark) {
             document.documentElement.classList.add('dark');
             localStorage.setItem('theme', 'dark');
@@ -89,12 +131,12 @@ export default function StaffDashboard() {
             document.documentElement.classList.remove('dark');
             localStorage.setItem('theme', 'light');
         }
-    }, [isDark]);
+    }, [isDark, isMounted]);
 
-    //Sync lang to localStorage
     useEffect(() => {
+        if (!isMounted) return;
         localStorage.setItem('lang', lang);
-    }, [lang]);
+    }, [lang, isMounted]);
 
     useEffect(() => {
         const channel = pusherClient.subscribe('patient-session');
@@ -135,6 +177,10 @@ export default function StaffDashboard() {
         }
     };
 
+    if (!isMounted) {
+        return null;
+    }
+
     return (
         <div className="w-full min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-300 font-sans flex flex-col m-0 p-0">
 
@@ -143,7 +189,6 @@ export default function StaffDashboard() {
                 <div className="w-full flex flex-wrap items-center justify-between gap-4">
 
                     <div className="flex items-center gap-4">
-                        {/* Back Button */}
                         <Link
                             href="/"
                             className="p-3 rounded-full bg-slate-200/70 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all border border-slate-300/60 dark:border-slate-700/60 flex items-center justify-center group"
@@ -191,7 +236,22 @@ export default function StaffDashboard() {
                     </div>
 
                     <div className="flex items-center gap-3.5 ml-auto sm:ml-0">
-                        {/* Language Toggle */}
+                        <button
+                            onClick={() => setIsDark(!isDark)}
+                            className="w-10 h-10 rounded-full bg-slate-200/70 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors border border-slate-300/60 dark:border-slate-700/60 flex items-center justify-center"
+                            title="Toggle Theme"
+                            aria-label="Toggle Dark Mode"
+                        >
+                            {isDark ? (
+                                <svg className="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                                </svg>
+                            ) : (
+                                <svg className="w-5 h-5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                            )}
+                        </button>
                         <div className="flex items-center bg-slate-200/70 dark:bg-slate-800/70 p-1 rounded-full border border-slate-300/60 dark:border-slate-700/60">
                             <button
                                 onClick={() => {
@@ -232,24 +292,6 @@ export default function StaffDashboard() {
                                 EN
                             </button>
                         </div>
-
-                        {/* Dark Mode Toggle */}
-                        <button
-                            onClick={() => setIsDark(!isDark)}
-                            className="w-10 h-10 rounded-full bg-slate-200/70 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors border border-slate-300/60 dark:border-slate-700/60 flex items-center justify-center"
-                            title="Toggle Theme"
-                            aria-label="Toggle Dark Mode"
-                        >
-                            {isDark ? (
-                                <svg className="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                                </svg>
-                            ) : (
-                                <svg className="w-5 h-5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                                </svg>
-                            )}
-                        </button>
                     </div>
                 </div>
             </header>
@@ -280,7 +322,8 @@ export default function StaffDashboard() {
                         <DataCard label={t.lblMiddleName} value={formData.middleName} />
                         <DataCard label={t.lblLastName} value={formData.lastName} />
                         <DataCard label={t.lblDob} value={formData.dob} />
-                        <DataCard label={t.lblGender} value={formData.gender} />
+                        {/* แปลงค่า Gender ตามภาษาเจ้าหน้าที่ */}
+                        <DataCard label={t.lblGender} value={getGenderText(formData.gender)} />
                         <DataCard label={t.lblNation} value={formData.nationality} />
                     </div>
                 </div>
@@ -293,8 +336,10 @@ export default function StaffDashboard() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         <DataCard label={t.lblPhone} value={formData.phone} />
                         <DataCard label={t.lblEmail} value={formData.email} />
-                        <DataCard label={t.lblLang} value={formData.preferredLanguage} />
-                        <DataCard label={t.lblReligion} value={formData.religion} />
+                        {/* แปลงค่า Preferred Language */}
+                        <DataCard label={t.lblLang} value={getLanguageText(formData.preferredLanguage)} />
+                        {/* แปลงค่า Religion */}
+                        <DataCard label={t.lblReligion} value={getReligionText(formData.religion)} />
                         <DataCard label={t.lblAddress} value={formData.address} className="sm:col-span-2 md:col-span-3 lg:col-span-2" />
                         <DataCard label={t.lblEmergencyName} value={formData.emergencyContactName} />
                         <DataCard label={t.lblEmergencyRel} value={formData.emergencyContactRel} />

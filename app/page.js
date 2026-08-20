@@ -8,7 +8,7 @@ export default function Home() {
   const [lang, setLang] = useState('th');
   const [isDark, setIsDark] = useState(false);
 
-  // 1. โหลดค่าจาก localStorage หลังจาก Mount บน Client เรียบร้อยแล้วเท่านั้น
+  // Load value from localStorage after Mount on Client
   useEffect(() => {
     setMounted(true);
     const savedLang = localStorage.getItem('lang') || 'th';
@@ -17,7 +17,7 @@ export default function Home() {
     setIsDark(savedTheme);
   }, []);
 
-  // 2. ซิงค์ Class 'dark' บน HTML Element และบันทึกคีย์ theme
+  // Sync Class 'dark' on HTML Element Save theme key
   useEffect(() => {
     if (!mounted) return;
 
@@ -31,7 +31,7 @@ export default function Home() {
     }
   }, [isDark, mounted]);
 
-  // 3. บันทึกคีย์ lang ลง localStorage
+  // Save key lang in localStorage
   useEffect(() => {
     if (!mounted) return;
     localStorage.setItem('lang', lang);
@@ -70,7 +70,7 @@ export default function Home() {
 
   const t = content[lang];
 
-  // ป้องกัน Mismatch ระหว่าง Server กับ Client
+  // Protect Mismatch between Server & Client
   if (!mounted) {
     return <main className="min-h-screen bg-slate-50 dark:bg-slate-950" />;
   }
@@ -85,7 +85,7 @@ export default function Home() {
         <button
           onClick={() => setIsDark(!isDark)}
           aria-label="Toggle Theme"
-          className="p-2.5 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 shadow-sm transition-all flex items-center justify-center cursor-pointer"
+          className="p-3 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 shadow-sm transition-all flex items-center justify-center cursor-pointer"
         >
           {isDark ? (
             /* Moon Icon */
@@ -100,8 +100,8 @@ export default function Home() {
           )}
         </button>
 
-        {/* Language Switcher Toggle */}
-        <div className="flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-full p-2 shadow-sm">
+        {/* Language Toggle */}
+        <div className="flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-full p-1 shadow-sm">
           <button
             onClick={() => setLang('th')}
             className={`flex items-center gap-2.5 px-4 py-2 rounded-full text-sm font-bold transition-all cursor-pointer ${lang === 'th'
