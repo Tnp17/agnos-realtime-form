@@ -380,7 +380,7 @@ export default function PatientForm() {
                             <button
                                 type="button"
                                 onClick={() => changeLanguage('th')}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${lang === 'th'
+                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold transition-all ${lang === 'th'
                                     ? 'bg-blue-600 text-white shadow-xs'
                                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                                     }`}
@@ -392,7 +392,7 @@ export default function PatientForm() {
                             <button
                                 type="button"
                                 onClick={() => changeLanguage('en')}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${lang === 'en'
+                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold transition-all ${lang === 'en'
                                     ? 'bg-blue-600 text-white shadow-xs'
                                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                                     }`}
@@ -409,14 +409,14 @@ export default function PatientForm() {
 
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
                         <div>
-                            <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50 mb-2">
+                            <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50 mb-2">
                                 • {t.tag}
                             </span>
                             <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{t.title}</h1>
                             <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{t.subtitle}</p>
                         </div>
 
-                        <div className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300 font-medium self-start sm:self-center">
+                        <div className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm text-slate-600 dark:text-slate-300 font-medium self-start sm:self-center">
                             Status: <span className={isFormDirty ? "text-blue-600 dark:text-blue-400 font-semibold" : "text-slate-500"}>
                                 {isFormDirty ? t.statusTyping : t.statusNotTyped}
                             </span>
@@ -434,7 +434,7 @@ export default function PatientForm() {
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t.firstName} <span className="text-red-500">*</span>
                                     </label>
                                     <input
@@ -443,11 +443,11 @@ export default function PatientForm() {
                                         onChange={(e) => handleFieldChange('firstName', removeNumbers(e.target.value))}
                                         className={`w-full rounded-xl p-3 text-sm bg-slate-50 dark:bg-slate-800 border outline-none transition ${errors.firstName ? 'border-red-500 focus:ring-2 focus:ring-red-200' : 'border-slate-100 dark:border-slate-800 focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900'}`}
                                     />
-                                    {errors.firstName && <p className="mt-1 text-xs text-red-500 font-medium">{errors.firstName}</p>}
+                                    {errors.firstName && <p className="mt-1 text-sm text-red-500 font-medium">{errors.firstName}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t.middleName}
                                     </label>
                                     <input
@@ -459,7 +459,7 @@ export default function PatientForm() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t.lastName} <span className="text-red-500">*</span>
                                     </label>
                                     <input
@@ -468,13 +468,13 @@ export default function PatientForm() {
                                         onChange={(e) => handleFieldChange('lastName', removeNumbers(e.target.value))}
                                         className={`w-full rounded-xl p-3 text-sm bg-slate-50 dark:bg-slate-800 border outline-none transition ${errors.lastName ? 'border-red-500 focus:ring-2 focus:ring-red-200' : 'border-slate-100 dark:border-slate-800 focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900'}`}
                                     />
-                                    {errors.lastName && <p className="mt-1 text-xs text-red-500 font-medium">{errors.lastName}</p>}
+                                    {errors.lastName && <p className="mt-1 text-sm text-red-500 font-medium">{errors.lastName}</p>}
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t.birthDate} <span className="text-red-500">*</span>
                                     </label>
                                     <input
@@ -486,11 +486,11 @@ export default function PatientForm() {
                                             ${!formData.birthDate ? 'text-slate-400' : 'text-slate-900 dark:text-slate-100'} 
                                             ${errors.birthDate ? 'border-red-500 focus:ring-2 focus:ring-red-200' : 'border-slate-100 dark:border-slate-800 focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900'}`}
                                     />
-                                    {errors.birthDate && <p className="mt-1 text-xs text-red-500 font-medium">{errors.birthDate}</p>}
+                                    {errors.birthDate && <p className="mt-1 text-sm text-red-500 font-medium">{errors.birthDate}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t.gender} <span className="text-red-500">*</span>
                                     </label>
                                     <select
@@ -505,7 +505,7 @@ export default function PatientForm() {
                                         <option value="female" className="text-slate-900 dark:text-slate-100">{t.female}</option>
                                         <option value="other" className="text-slate-900 dark:text-slate-100">{t.otherGender}</option>
                                     </select>
-                                    {errors.gender && <p className="mt-1 text-xs text-red-500 font-medium">{errors.gender}</p>}
+                                    {errors.gender && <p className="mt-1 text-sm text-red-500 font-medium">{errors.gender}</p>}
                                 </div>
                             </div>
                         </div>
@@ -519,7 +519,7 @@ export default function PatientForm() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t.phone} <span className="text-red-500">*</span>
                                     </label>
                                     <PhoneInput
@@ -533,11 +533,11 @@ export default function PatientForm() {
                                             buttonClassName: `!h-[46px] !rounded-l-xl !border-slate-100 dark:!border-slate-800 !bg-slate-50 dark:!bg-slate-800 !px-3 ${errors.phone ? '!border-red-500' : ''}`,
                                         }}
                                     />
-                                    {errors.phone && <p className="mt-1 text-xs text-red-500 font-medium">{errors.phone}</p>}
+                                    {errors.phone && <p className="mt-1 text-sm text-red-500 font-medium">{errors.phone}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t.email} <span className="text-red-500">*</span>
                                     </label>
                                     <input
@@ -547,12 +547,12 @@ export default function PatientForm() {
                                         placeholder="example@domain.com"
                                         className={`w-full rounded-xl p-3 text-sm bg-slate-50 dark:bg-slate-800 border outline-none transition ${errors.email ? 'border-red-500 focus:ring-2 focus:ring-red-200' : 'border-slate-100 dark:border-slate-800 focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900'}`}
                                     />
-                                    {errors.email && <p className="mt-1 text-xs text-red-500 font-medium">{errors.email}</p>}
+                                    {errors.email && <p className="mt-1 text-sm text-red-500 font-medium">{errors.email}</p>}
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                     {t.address} <span className="text-red-500">*</span>
                                 </label>
                                 <input
@@ -561,7 +561,7 @@ export default function PatientForm() {
                                     onChange={(e) => handleFieldChange('address', e.target.value)}
                                     className={`w-full rounded-xl p-3 text-sm bg-slate-50 dark:bg-slate-800 border outline-none transition ${errors.address ? 'border-red-500 focus:ring-2 focus:ring-red-200' : 'border-slate-100 dark:border-slate-800 focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900'}`}
                                 />
-                                {errors.address && <p className="mt-1 text-xs text-red-500 font-medium">{errors.address}</p>}
+                                {errors.address && <p className="mt-1 text-sm text-red-500 font-medium">{errors.address}</p>}
                             </div>
                         </div>
 
@@ -574,7 +574,7 @@ export default function PatientForm() {
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t.language}
                                     </label>
                                     <Select
@@ -588,7 +588,7 @@ export default function PatientForm() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t.nationality}
                                     </label>
                                     <input
@@ -606,7 +606,7 @@ export default function PatientForm() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t.religion}
                                     </label>
                                     <Select
@@ -632,9 +632,9 @@ export default function PatientForm() {
                                                 placeholder={t.otherRelSpecify}
                                                 value={formData.otherReligion}
                                                 onChange={(e) => handleFieldChange('otherReligion', removeNumbers(e.target.value))}
-                                                className={`w-full rounded-xl p-2.5 text-xs bg-slate-50 dark:bg-slate-800 border outline-none transition ${errors.otherReligion ? 'border-red-500' : 'border-slate-200 dark:border-slate-700 focus:border-blue-500'}`}
+                                                className={`w-full rounded-xl p-2.5 text-sm bg-slate-50 dark:bg-slate-800 border outline-none transition ${errors.otherReligion ? 'border-red-500' : 'border-slate-200 dark:border-slate-700 focus:border-blue-500'}`}
                                             />
-                                            {errors.otherReligion && <p className="mt-1 text-xs text-red-500 font-medium">{errors.otherReligion}</p>}
+                                            {errors.otherReligion && <p className="mt-1 text-sm text-red-500 font-medium">{errors.otherReligion}</p>}
                                         </div>
                                     )}
                                 </div>
@@ -642,7 +642,7 @@ export default function PatientForm() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t.emergencyContact}
                                     </label>
                                     <input
@@ -654,7 +654,7 @@ export default function PatientForm() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                                         {t.relationship}
                                     </label>
                                     <input
